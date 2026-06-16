@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LexStudy — UTS L1 Droit</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Icônes gratuites -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- PDF.js pour lire les PDFs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       ÉCRAN DE CONFIGURATION (première fois)
+  ═══════════════════════════════════════ -->
+  <div id="setup-screen" class="screen">
+    <div class="setup-card">
+      <div class="setup-logo">⚖️</div>
+      <h1>LexStudy</h1>
+      <p class="setup-sub">Assistant IA · Université Thomas Sankara · L1 Droit</p>
+
+      <div class="setup-form">
+        <label>Ta clé API Anthropic</label>
+        <input
+          type="password"
+          id="api-key-input"
+          placeholder="sk-ant-..."
+        />
+        <small>
+          Obtiens ta clé sur <strong>console.anthropic.com</strong><br/>
+          Elle est stockée uniquement sur ton appareil.
+        </small>
+
+        <button id="save-key-btn" class="btn-primary">
+          <i class="fa fa-key"></i> Enregistrer et démarrer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       APPLICATION PRINCIPALE
+  ═══════════════════════════════════════ -->
+  <div id="app-screen" class="screen hidden">
+
+    <!-- HEADER -->
+    <header id="app-header">
+      <div class="header-left">
+        <button id="menu-toggle" aria-label="Menu">
+          <i class="fa fa-bars"></i>
+        </button>
+        <span class="header-logo">⚖️ LexStudy</span>
+      </div>
+      <div class="header-right">
+        <span id="header-module-name" class="header-module"></span>
+        <button id="change-key-btn" title="Changer la clé API">
+          <i class="fa fa-gear"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- LAYOUT PRINCIPAL -->
+    <div id="main-layout">
+
+      <!-- SIDEBAR (liste des modules) -->
+      <aside id="sidebar">
+        <div class="sidebar-header">
+          <span>Mes modules</span>
+          <div class="sem-filter">
+            <button class="sem-btn active" data-sem="0">Tous</button>
+            <button class="sem-btn" data-sem="1">S1</button>
+            <button class="sem-btn" data-sem="2">S2</button>
+          </div>
+        </div>
+        <nav id="module-list">
+          <!-- Généré par modules.js -->
+        </nav>
+      </aside>
+
+      <!-- OVERLAY sidebar mobile -->
+      <div id="sidebar-overlay"></div>
+
+      <!-- CONTENU PRINCIPAL -->
+      <main id="main-content">
+
+        <!-- PAGE D'ACCUEIL (aucun module sélectionné) -->
+        <div id="home-page">
+          <div class="home-hero">
+            <div class="home-icon">⚖️</div>
+            <h2>Bienvenue sur LexStudy</h2>
+            <p>Sélectionne un module dans le menu pour commencer ta session d'étude.</p>
+          </div>
+          <div class="home-features">
+            <div class="feature-card">
+              <span class="feature-icon">🎯</span>
+              <h3>Prédiction d'examen</h3>
+              <p>L'IA analyse tes cours et anciens examens pour prédire les questions probables.</p>
+            </div>
+            <div class="feature-card">
+              <span class="feature-icon">📝</span>
+              <h3>QCM interactifs</h3>
+              <p>Génère des QCM avec corrections et explications détaillées.</p>
+            </div>
+            <div class="feature-card">
+              <span class="feature-icon">⚖️</span>
+              <h3>Exercices juridiques</h3>
+              <p>Dissertation, commentaire d'arrêt et cas pratique guidés pas à pas.</p>
+            </div>
+            <div class="feature-card">
+              <span class="feature-icon">💬</span>
+              <h3>Chat avec ton cours</h3>
+              <p>Pose des questions à ton PDF de cours comme à un professeur virtuel.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAGE D'UN MODULE (affiché quand module sélectionné) -->
+        <div id="module-page" class="hidden">
+
+          <!-- Info du module -->
+          <div class="module-header">
+            <h2 id="module-title"></h2>
+            <div id="module-ec-tags"></div>
+          </div>
+
+          <!-- Onglets des fonctionnalités -->
+          <div class="feature-tabs">
+            <button class="ftab active" data-feature="predictor">
+              <i class="fa fa-bullseye"></i> Prédiction
+            </button>
+            <button class="ftab" data-feature="qcm">
+              <i class="fa fa-list-check"></i> QCM
+            </button>
+            <button class="ftab" data-feature="exercices">
+              <i class="fa fa-scale-balanced"></i> Exercices
+            </button>
+            <button class="ftab" data-feature="chat">
+              <i class="fa fa-comments"></i> Chat
+            </button>
+          </div>
+
+          <!-- Panneaux des fonctionnalités -->
+          <div id="feature-panels">
+
+            <!-- PRÉDICTION -->
+            <div id="panel-predictor" class="panel active">
+              <!-- Contenu injecté par predictor.js -->
+            </div>
+
+            <!-- QCM -->
+            <div id="panel-qcm" class="panel hidden">
+              <!-- Contenu injecté par qcm.js -->
+            </div>
+
+            <!-- EXERCICES -->
+            <div id="panel-exercices" class="panel hidden">
+              <!-- Contenu injecté par exercices.js -->
+            </div>
+
+            <!-- CHAT -->
+            <div id="panel-chat" class="panel hidden">
+              <!-- Contenu injecté par chat.js -->
+            </div>
+
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       TOAST (notifications rapides)
+  ═══════════════════════════════════ -->
+  <div id="toast"></div>
+
+  <!-- ═══════════════════════════════════
+       SCRIPTS (ordre important !)
+  ═══════════════════════════════════ -->
+  <script src="data/modules.js"></script>
+  <script src="modules/storage.js"></script>
+  <script src="modules/predictor.js"></script>
+  <script src="modules/qcm.js"></script>
+  <script src="modules/exercices.js"></script>
+  <script src="modules/chat.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
